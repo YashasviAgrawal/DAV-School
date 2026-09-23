@@ -1,31 +1,29 @@
-import { features, school } from "@/lib/data";
+import { ArrowRight } from "lucide-react";
+import { features } from "@/lib/data";
+import Reveal from "./Reveal";
 
 export default function WhyDav() {
   return (
-    <section className="bg-white py-20 lg:py-28">
-      <div className="container-x grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <h2 className="h2">Why parents choose D.A.V.</h2>
-          <blockquote className="mt-8 border-l-4 border-marigold pl-6">
-            <p className="font-display text-2xl font-semibold leading-snug text-ink">
-              Love and firmness go hand in hand. We aim to balance each child’s moral, intellectual and physical growth.
-            </p>
-            <footer className="mt-4 text-text/60">The school’s founding aim</footer>
-          </blockquote>
-          <p className="mt-8 max-w-md leading-relaxed text-text/75">
-            We set high academic expectations and pair them with values, so students grow into
-            peace-building, productive citizens, and leaders who are good people first.
+    <section className="section bg-bg">
+      <div className="wrap grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+        <Reveal className="lg:sticky lg:top-32 lg:self-start">
+          <h2 className="h2">Why parents in Brahampuri choose us.</h2>
+          <p className="lead">
+            High academic expectations, paired with the things that are harder to put on a report
+            card: honesty, leadership, and knowing that somebody is watching out for your child.
           </p>
-          <a href="#enquire" className="btn btn-ink mt-8">Talk to the school office</a>
-          <p className="sr-only">Motto: {school.motto}</p>
-        </div>
+          <a href="/#enquire" className="btn btn-solid mt-9">
+            Apply now
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
+          </a>
+        </Reveal>
 
-        <ul className="grid gap-x-10 sm:grid-cols-2">
-          {features.map((f) => (
-            <li key={f.title} className="border-t border-ink/10 py-6">
-              <h3 className="font-display text-xl font-bold text-ink">{f.title}</h3>
-              <p className="mt-2 leading-relaxed text-text/70">{f.text}</p>
-            </li>
+        <ul className="grid gap-x-12 sm:grid-cols-2">
+          {features.map((f, i) => (
+            <Reveal as="li" key={f.title} delay={(i % 2) * 90} className="border-t border-line py-7">
+              <h3 className="h3">{f.title}</h3>
+              <p className="mt-2.5 leading-relaxed text-muted">{f.text}</p>
+            </Reveal>
           ))}
         </ul>
       </div>

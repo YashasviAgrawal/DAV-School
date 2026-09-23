@@ -6,34 +6,41 @@ import Logo from "./Logo";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
+  // The panel is as tall as the page on a phone, so the page behind it must not scroll.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header
-      id="top"
-      className={`sticky top-0 z-40 bg-white/95 backdrop-blur transition-shadow ${scrolled ? "shadow-[0_1px_0_#16275C1a]" : ""}`}
-    >
-      <nav className="container-x flex h-20 items-center justify-between" aria-label="Main">
+    <header id="top" className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur-md">
+      <nav className="wrap flex h-[4.5rem] items-center justify-between gap-6" aria-label="Main">
         <Logo />
-        {/* gap tightens between lg and xl so the seven links clear the Enquire button at 1024px */}
-        <ul className="hidden items-center gap-5 lg:flex xl:gap-8">
+
+        {/* Seven links on one line from 1024px up; the gap tightens rather than wrapping. */}
+        <ul className="hidden items-center gap-6 lg:flex xl:gap-9">
           {nav.map((n) => (
             <li key={n.href}>
-              <a href={n.href} className="font-medium text-text/80 hover:text-cobalt">{n.label}</a>
+              <a
+                href={n.href}
+                className="text-[0.93rem] font-medium text-muted transition-colors hover:text-fg"
+              >
+                {n.label}
+              </a>
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-3">
-          <a href="/#enquire" className="btn btn-ink hidden sm:inline-flex">Enquire now</a>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <a href="/#enquire" className="btn btn-primary hidden px-6 py-3 sm:inline-flex">
+            Apply now
+          </a>
           <button
-            className="rounded-lg p-2 text-ink lg:hidden"
+            type="button"
+            className="-mr-2 p-2 text-fg lg:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -43,18 +50,28 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+
       {open && (
-        <div id="mobile-menu" className="border-t border-ink/10 bg-white lg:hidden">
-          <ul className="container-x flex flex-col py-4">
+        <div
+          id="mobile-menu"
+          className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 overflow-y-auto border-t border-line bg-bg lg:hidden"
+        >
+          <ul className="wrap flex flex-col py-2">
             {nav.map((n) => (
-              <li key={n.href}>
-                <a href={n.href} onClick={() => setOpen(false)} className="block py-3 text-lg font-medium text-ink">
+              <li key={n.href} className="border-b border-line">
+                <a
+                  href={n.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-4 font-display text-lg font-medium text-fg"
+                >
                   {n.label}
                 </a>
               </li>
             ))}
-            <li className="pt-3">
-              <a href="/#enquire" onClick={() => setOpen(false)} className="btn btn-primary w-full">Enquire now</a>
+            <li className="py-6">
+              <a href="/#enquire" onClick={() => setOpen(false)} className="btn btn-primary w-full">
+                Apply now
+              </a>
             </li>
           </ul>
         </div>

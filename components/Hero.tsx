@@ -1,52 +1,158 @@
-import { Phone } from "lucide-react";
-import { heroFacts, school } from "@/lib/data";
-import { Rosette, TilePattern } from "./Motif";
-import EnquiryForm from "./EnquiryForm";
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { ArrowRight, Phone } from "lucide-react";
+import { heroSlides, school } from "@/lib/data";
+
+const DURATION = 7000;
 
 export default function Hero() {
-  return (
-    <section className="relative overflow-hidden bg-ink text-white">
-      <TilePattern id="hero-tile" />
-      {/* The one orchestrated motion on the page: the rosette blooms in on load */}
-      <div className="pointer-events-none absolute -right-48 -top-24 h-[640px] w-[640px] lg:-right-56 lg:top-1/2 lg:h-[900px] lg:w-[900px] lg:-translate-y-1/2" aria-hidden="true">
-        <Rosette className="animate-bloom h-full w-full opacity-90" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/20" aria-hidden="true" />
+  const [active, setActive] = useState(0);
+  const [held, setHeld] = useState(false);
+  const [animated, setAnimated] = useState(false);
 
-      <div className="container-x relative grid gap-12 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
-        <div>
-          <p className="text-base font-medium text-marigold">
-            <span lang="hi">स्वागत है</span>, welcome to the D.A.V. family, {school.place}
-          </p>
-          <h1 className="mt-5 max-w-3xl font-display text-[2.6rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            Every child known by name, from Play Group to Class XII.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
-            An English-medium, co-educational school with Hindi and Sanskrit at its roots. For over fifty years,
-            Brahampuri families have trusted us with one promise: {school.motto.toLowerCase()}.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#enquire" className="btn btn-primary">Book a campus visit</a>
-            <a href={`tel:${school.phones[0].replace(/-/g, "")}`} className="btn btn-ghost">
-              <Phone className="h-4 w-4" /> Call {school.phones[0]}
-            </a>
+  // `data-anim` is set by the boot script, so it already carries the reader's
+  // reduced-motion preference. No preference, no autoplay: the arrows still work.
+  useEffect(() => setAnimated(document.documentElement.hasAttribute("data-anim")), []);
+
+  useEffect(() => {
+    if (!animated || held) return;
+    const t = setTimeout(() => setActive((n) => (n + 1) % heroSlides.length), DURATION);
+    return () => clearTimeout(t);
+  }, [active, held, animated]);
+
+  const slide = heroSlides[active];
+
+  return (
+    <section
+      aria-roledescription="carousel"
+      aria-label="Life at D.A.V."
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onFocusCapture={() => setHeld(true)}
+      onBlurCapture={() => setHeld(false)}
+      className="relative isolate flex min-h-[max(34rem,calc(100dvh-7.25rem))] flex-col justify-end overflow-hidden bg-band"
+    >
+      {heroSlides.map((s, i) => {
+        const on = i === active;
+        return (
+          <div
+            key={s.src}
+            aria-hidden={!on}
+            className={`absolute inset-0 -z-10 ${on ? "opacity-100" : "opacity-0"}`}
+            style={{
+              transitionProperty: "opacity",
+              transitionDuration: "1100ms",
+              transitionTimingFunction: "ease-in-out",
+            }}
+          >
+            {/* The slow push on the live frame. Scale resets quickly on the way out,
+                while the slide is already invisible, so the next turn starts clean. */}
+            <div
+              className="h-full w-full"
+              style={{
+                transform: on ? "scale(1.12)" : "scale(1.02)",
+                transitionProperty: "transform",
+                transitionDuration: on ? "9000ms" : "900ms",
+                transitionTimingFunction: "ease-out",
+              }}
+            >
+              <Image
+                src={s.src}
+                alt={s.alt}
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className={`object-cover ${s.focus}`}
+              />
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Two scrims: one down the page, one in from the left, so the copy block keeps
+          its contrast over every frame without flattening the photograph. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-scrim via-scrim/70 to-scrim/25"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-scrim/85 via-scrim/35 to-transparent"
+      />
+
+      <div className="wrap relative w-full pb-12 pt-28 sm:pb-16 lg:pb-20">
+        <div className="grid gap-y-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-x-16">
+          <div className="text-band-fg">
+            <h1
+              key={`h-${active}`}
+              className="rise max-w-[14ch] font-display text-[2.5rem] font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-[3.4rem] lg:text-[4.4rem]"
+            >
+              {slide.headline}
+            </h1>
+            <p
+              key={`p-${active}`}
+              className="rise mt-6 max-w-[46ch] text-[1.05rem] leading-relaxed text-white/85 sm:text-[1.15rem]"
+              style={{ "--rise-delay": "120ms" } as React.CSSProperties}
+            >
+              {slide.text}
+            </p>
+            <div
+              className="rise mt-9 flex flex-wrap gap-3"
+              style={{ "--rise-delay": "220ms" } as React.CSSProperties}
+            >
+              <a href="#enquire" className="btn btn-primary">
+                Apply now
+                <ArrowRight className="h-4 w-4" strokeWidth={2} />
+              </a>
+              <a
+                href={`tel:${school.phones[0].replace(/-/g, "")}`}
+                className="btn border border-white/45 text-white hover:bg-white hover:text-band"
+              >
+                <Phone className="h-4 w-4" strokeWidth={2} />
+                Call {school.phones[0]}
+              </a>
+            </div>
           </div>
 
-          <dl className="mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-6 border-t border-white/15 pt-8 sm:grid-cols-4">
-            {heroFacts.map((f) => (
-              <div key={f.label}>
-                <dt className="sr-only">{f.label}</dt>
-                <dd className="font-display text-3xl font-bold text-white">{f.value}</dd>
-                <dd className="mt-1 text-sm leading-snug text-white/60">{f.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div id="enquire" className="scroll-mt-28 rounded-3xl bg-white p-6 text-text shadow-2xl shadow-black/30 sm:p-8">
-          <h2 className="font-display text-2xl font-bold text-ink">Admission enquiry {school.session}</h2>
-          <p className="mb-6 mt-1 text-text/65">Leave your number and the office will call you back.</p>
-          <EnquiryForm />
+          <div className="lg:pb-2 lg:text-right">
+            <p key={`c-${active}`} className="rise text-[0.82rem] text-white/70">
+              {slide.caption}
+            </p>
+            <div className="mt-4 flex gap-6 lg:justify-end" role="tablist" aria-label="Choose a photograph">
+              {heroSlides.map((s, i) => {
+                const on = i === active;
+                return (
+                  <button
+                    key={s.src}
+                    type="button"
+                    role="tab"
+                    aria-selected={on}
+                    aria-label={`Photograph ${i + 1}: ${s.caption}`}
+                    onClick={() => setActive(i)}
+                    className="relative pb-2.5 font-display text-sm font-semibold tabular-nums"
+                  >
+                    <span className={on ? "text-white" : "text-white/45 transition-colors hover:text-white/80"}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-white/25" />
+                    {on && (
+                      <span
+                        key={`sweep-${active}`}
+                        aria-hidden="true"
+                        className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-accent"
+                        style={{
+                          animation: animated ? `sweep ${DURATION}ms linear both` : undefined,
+                          transform: animated ? undefined : "scaleX(1)",
+                          animationPlayState: held ? "paused" : "running",
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>

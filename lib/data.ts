@@ -7,7 +7,7 @@ export const school = {
   shortName: "D.A.V.",
   place: "Brahampuri, Jaipur",
   motto: "A Quality Education",
-  session: "2027–28", // CONFIRM: admission session to advertise
+  session: "2027-28", // CONFIRM: admission session to advertise
   phones: ["0141-2411253", "0141-2410299"],
   email: "davschool@gmail.com",
   address: "16, Agrasain Colony, Brahampuri Khurra, Jaipur, Rajasthan",
@@ -31,11 +31,63 @@ export const nav = [
   { label: "Contact", href: "/#contact" },
 ];
 
+// The rotating hero. Three photographs the school already uses, each with the one
+// sentence that photograph earns. The Class VIII figure is read off the school's own
+// result banner in /life/achievers-group.jpg.
+export const heroSlides = [
+  {
+    src: "/life/achievers-group.jpg",
+    alt: "Sixty-two Class VIII students garlanded and holding trophies with their teachers at the board result felicitation",
+    caption: "Class VIII board result, 2025-26",
+    headline: "Every child known by name.",
+    text: "Sixty-two of our Class VIII students took a Grade A in the 2025-26 board result.",
+    focus: "object-[center_42%]",
+  },
+  {
+    src: "/campus/activity-table.jpg",
+    alt: "Pre-primary children smiling around an activity table stacked with letter and number puzzles",
+    caption: "The pre-primary wing, Montessori School",
+    headline: "Learning that starts with play.",
+    text: "Play Group is bag-free, and the early years are guided by Montessori-trained teachers.",
+    focus: "object-[center_45%]",
+  },
+  {
+    src: "/campus/play-outdoor.jpg",
+    alt: "Young children on slides, swings and ride-ons in the school's outdoor play area",
+    caption: "The outdoor play area, Brahampuri Khurra",
+    headline: "Room to be a child.",
+    text: "Swings, slides and a climbing wall, with games and sports at the historic Chaugan Stadium.",
+    focus: "object-[center_55%]",
+  },
+];
+
 export const heroFacts = [
   { value: "1972", label: "Teaching Jaipur's children since" },
   { value: "3", label: "Schools in Brahampuri Khurra" },
-  { value: "PG–XII", label: "Play Group to Class XII" },
-  { value: "4.5★", label: "Rated by parents on Justdial" },
+  { value: "PG to XII", label: "Play Group to Class XII" },
+  { value: "62", label: "Grade A scorers, Class VIII board 2025-26" },
+];
+
+// The school's own words, kept as the school wrote them. Neither line is attributed
+// to a named person, because neither was published as a personal quotation.
+export const voices = [
+  {
+    quote:
+      "Love and firmness go hand in hand. We aim to balance each child's moral, intellectual and physical growth.",
+    source: "The school's founding aim",
+    note: "Held to since Mrs. Dayawanti Gupta opened the Montessori school in 1972.",
+    photo: "/life/assembly.jpg",
+    alt: "Parents and students seated together in the school hall during a function",
+  },
+  {
+    quote:
+      "Every family is welcomed into the D.A.V. family. Work with us, so your child grows self-reliant.",
+    source: "From the Principal's desk",
+    note: "The three schools are led by CA Manoj Kumar Agarwal, Director.",
+    photo: "/people/director.jpg",
+    alt: "Portrait of CA Manoj Kumar Agarwal, Director of D.A.V. Group of Schools",
+    portrait: true,
+  },
 ];
 
 // Each photo is the school's own, and shows the moment the award was received.
@@ -117,7 +169,7 @@ export type Teacher = {
 };
 export const teachers: Teacher[] = [];
 
-// From the school's 2025–26 announcement posters.
+// From the school's 2025-26 announcement posters.
 // CONFIRM with the office that all three are still running before going live.
 export const extras = [
   { title: "IIT-JEE / NEET foundation classes", text: "Free of cost, for Class VI to XII, taken during school hours." },
@@ -213,16 +265,16 @@ export const features = [
 ];
 
 export const facilities = [
-  { title: "Computer labs", text: "Two labs in the main building with 45 multimedia computers, power backup and high-speed internet, plus one in the branch." },
+  { title: "Computer labs", text: "Two labs in the main building and a third in the branch, with power backup and high-speed internet throughout." },
   { title: "Science lab", text: "A well-equipped lab for senior secondary Science students." },
   { title: "Smart classes", text: "Used for Social Studies and Science from primary level." },
   { title: "Libraries", text: "Open-shelf libraries on both campuses, restocked regularly." },
   { title: "Sports at Chaugan Stadium", text: "Games and sports held at the historic Chaugan Stadium." },
   {
     title: "Little ones’ play zone",
-    text: "Swings, slides, merry-go-round, play pool, toy cars and a tunnel.",
-    photo: "/campus/play-soft.jpg",
-    alt: "Pre-primary children on a slide beside a ball pool in the indoor play zone",
+    text: "Swings, slides, merry-go-round, play pool, toy cars and a tunnel, plus an indoor climbing wall.",
+    photo: "/campus/climbing-wall.jpg",
+    alt: "Small children climbing a padded indoor climbing wall and rope ladder",
   },
   { title: "Comfortable buildings", text: "Centrally air-cooled main building and a fully air-conditioned branch." },
 ];
@@ -240,16 +292,46 @@ export const timeline = [
   { year: "Today", text: "Three schools, one family: Play Group to Class XII, Commerce and Science." },
 ];
 
+// The three schools, as the office lists them. `covers` is inferred from the
+// timings and the founders' notes above, not from a published class-to-campus map.
+// CONFIRM the three `covers` lines with the office before going live.
 export const campuses = [
-  { name: "D.A.V. Montessori School", address: "14, Indrapuri Colony, Brahampuri Khurra" },
-  { name: "D.A.V. Primary School (second shift)", address: "16, Agrasain Colony, Brahampuri Khurra" },
-  { name: "D.A.V. Sr. Secondary School", address: "16, Agrasain Colony, Brahampuri Khurra" },
+  {
+    name: "D.A.V. Sr. Secondary School",
+    covers: "Class 6 to 12, Commerce and Science",
+    address: "16, Agrasain Colony, Brahampuri Khurra",
+    since: "Founded 1993",
+    text: "The senior school: science and computer labs, smart classes, and the board years. Free IIT-JEE and NEET foundation classes run inside the school day.",
+    photo: "/life/achievers-group.jpg",
+    alt: "Class VIII achievers garlanded with their trophies and teachers in the school hall",
+    focus: "object-[center_45%]",
+  },
+  {
+    name: "D.A.V. Montessori School",
+    covers: "Play Group to Prep",
+    address: "14, Indrapuri Colony, Brahampuri Khurra",
+    since: "Founded 1972",
+    text: "Where the school began. Play-way learning, a climbing wall and a play pool, and a completely bag-free Play Group.",
+    photo: "/campus/play-soft.jpg",
+    alt: "Pre-primary children on a slide beside a ball pool in the indoor play zone",
+    focus: "object-[center_45%]",
+  },
+  {
+    name: "D.A.V. Primary School",
+    covers: "Class 1 to 5, second shift",
+    address: "16, Agrasain Colony, Brahampuri Khurra",
+    since: "Afternoon shift",
+    text: "Learning by doing with Montessori-trained teachers, plus abacus, Vedic maths and smart classes for science.",
+    photo: "/campus/activity-table.jpg",
+    alt: "Children working with letter and number puzzles around an activity table",
+    focus: "object-[center_50%]",
+  },
 ];
 
 export const timings = [
-  { who: "Class 6 to 12", time: "7:45 AM – 12:55 PM", where: "Main building" },
-  { who: "Play Group to Class 5 (morning)", time: "7:45 AM – 12:30 PM", where: "Branch building" },
-  { who: "Play Group to Class 5 (afternoon)", time: "1:00 PM – 5:30 PM", where: "Main building" },
+  { who: "Class 6 to 12", time: "7:45 AM to 12:55 PM", where: "Main building" },
+  { who: "Play Group to Class 5 (morning)", time: "7:45 AM to 12:30 PM", where: "Branch building" },
+  { who: "Play Group to Class 5 (afternoon)", time: "1:00 PM to 5:30 PM", where: "Main building" },
 ];
 
 export const admissionSteps = [
@@ -263,5 +345,5 @@ export const classOptions = [
   "Play Group", "Nursery", "KG", "Prep",
   "Class 1", "Class 2", "Class 3", "Class 4", "Class 5",
   "Class 6", "Class 7", "Class 8", "Class 9", "Class 10",
-  "Class 11 – Commerce", "Class 11 – Science",
+  "Class 11 (Commerce)", "Class 11 (Science)",
 ];

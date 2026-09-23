@@ -8,52 +8,36 @@ export default function Journey() {
   const stage = stages[active];
 
   return (
-    <section id="academics" className="py-20 lg:py-28">
-      <div className="container-x">
+    <section id="academics" className="section scroll-mt-28 bg-surface">
+      <div className="wrap">
         <div className="max-w-3xl">
-          <h2 className="h2">One school family, from first steps to board exams.</h2>
+          <h2 className="h2">What your child learns, stage by stage.</h2>
           <p className="lead">
-            Five stages under one management, so your child grows up with teachers who already know them.
-            Pick a stage to see what they learn and how.
+            Five stages under one management, so your child grows up taught by people who already
+            know them. Pick a stage to see the subjects and how they are taught.
           </p>
         </div>
 
-        {/* Stage path: a real sequence, so it reads left to right like a road */}
-        <div className="relative mt-12">
-          <div className="absolute left-0 right-0 top-5 hidden h-1 rounded-full bg-sky md:block" aria-hidden="true" />
-          <div
-            className="absolute left-0 top-5 hidden h-1 rounded-full bg-cobalt transition-all duration-500 md:block"
-            style={{ width: `${(active / (stages.length - 1)) * 100}%` }}
-            aria-hidden="true"
-          />
-          <div role="tablist" aria-label="School stages" className="relative flex gap-2 overflow-x-auto pb-2 md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
+        {/* Tabs sit on a single hairline, the live one carrying the marigold. On a phone
+            the row scrolls sideways rather than wrapping into a block of buttons. */}
+        <div className="no-bar mt-12 overflow-x-auto border-b border-line">
+          <div role="tablist" aria-label="School stages" className="flex min-w-max gap-8 sm:gap-10">
             {stages.map((s, i) => {
               const on = i === active;
-              const done = i < active;
               return (
                 <button
                   key={s.key}
+                  type="button"
                   role="tab"
                   id={`tab-${s.key}`}
                   aria-selected={on}
                   aria-controls={`panel-${s.key}`}
                   onClick={() => setActive(i)}
-                  className="group flex shrink-0 flex-col items-start gap-3 rounded-xl p-1 text-left md:items-center md:text-center"
+                  className={`relative -mb-px shrink-0 border-b-2 pb-4 font-display text-[1.02rem] font-semibold tracking-[-0.01em] transition-colors ${
+                    on ? "border-accent text-fg" : "border-transparent text-muted hover:text-fg"
+                  }`}
                 >
-                  <span
-                    className={`hidden h-11 w-11 items-center justify-center rounded-full border-4 font-display font-bold transition-colors md:flex ${
-                      on ? "border-marigold bg-ink text-white" : done ? "border-cobalt bg-cobalt text-white" : "border-sky bg-white text-ink/50 group-hover:border-cobalt/40"
-                    }`}
-                  >
-                    {i + 1}
-                  </span>
-                  <span
-                    className={`rounded-full px-4 py-2 font-semibold transition-colors md:rounded-none md:bg-transparent md:p-0 ${
-                      on ? "bg-ink text-white md:text-ink" : "bg-sky text-ink/70 md:text-text/60"
-                    }`}
-                  >
-                    {s.name}
-                  </span>
+                  {s.name}
                 </button>
               );
             })}
@@ -61,28 +45,35 @@ export default function Journey() {
         </div>
 
         <div
+          key={stage.key}
           role="tabpanel"
           id={`panel-${stage.key}`}
           aria-labelledby={`tab-${stage.key}`}
-          className="mt-10 grid gap-10 rounded-3xl bg-white p-6 ring-1 ring-ink/10 sm:p-10 lg:grid-cols-[1fr_1.1fr]"
+          className="swap mt-12 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
         >
           <div>
-            <p className="text-sm font-semibold text-cobalt">{stage.classes}</p>
-            <h3 className="mt-2 font-display text-3xl font-bold text-ink">{stage.name}</h3>
-            <ul className="mt-6 space-y-3">
+            <h3 className="font-display text-[1.6rem] font-semibold tracking-[-0.025em] text-fg sm:text-[2rem]">
+              {stage.name}
+            </h3>
+            <p className="mt-2 text-[0.95rem] font-medium text-muted">{stage.classes}</p>
+            <ul className="mt-8 space-y-4">
               {stage.approach.map((a) => (
-                <li key={a} className="flex gap-3 text-text/80">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-leaf" strokeWidth={2.5} />
+                <li key={a} className="flex gap-3.5 leading-relaxed text-fg/85">
+                  <Check className="mt-1 h-[1.05rem] w-[1.05rem] shrink-0 text-fg" strokeWidth={2.4} />
                   <span>{a}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-sky/60 p-6">
-            <p className="font-semibold text-ink">Subjects</p>
-            <ul className="mt-4 flex flex-wrap gap-2">
+
+          <div className="lg:border-l lg:border-line lg:pl-16">
+            <p className="font-semibold text-fg">Subjects</p>
+            <ul className="mt-5 flex flex-wrap gap-2">
               {stage.subjects.map((s) => (
-                <li key={s} className="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink ring-1 ring-ink/10">
+                <li
+                  key={s}
+                  className="border border-line bg-bg px-3.5 py-2 text-[0.88rem] font-medium text-fg"
+                >
                   {s}
                 </li>
               ))}
@@ -90,16 +81,21 @@ export default function Journey() {
           </div>
         </div>
 
-        <div className="mt-8 rounded-3xl bg-ink p-8 text-white sm:p-10">
-          <h3 className="font-display text-2xl font-bold">Included with your child&rsquo;s seat</h3>
-          <p className="mt-2 max-w-2xl text-white/70">
-            Run inside the school day, so nobody has to arrange a second commute for coaching.
+        {/* The one marigold panel on the page. It belongs to the thing parents in
+            Brahampuri are actually shopping for: coaching they do not have to pay for. */}
+        <div className="mt-16 bg-accent p-8 text-accent-fg sm:p-12 lg:mt-20">
+          <h3 className="font-display text-[1.5rem] font-semibold tracking-[-0.025em] sm:text-[1.9rem]">
+            Included with your child&rsquo;s seat.
+          </h3>
+          <p className="mt-3 max-w-[56ch] leading-relaxed text-accent-fg/80">
+            All three run inside the school day, so no family has to arrange a second commute for
+            coaching.
           </p>
-          <ul className="mt-8 grid gap-8 md:grid-cols-3">
+          <ul className="mt-10 grid gap-8 sm:gap-10 md:grid-cols-3">
             {extras.map((e) => (
-              <li key={e.title}>
-                <p className="font-display text-lg font-bold text-marigold">{e.title}</p>
-                <p className="mt-2 leading-relaxed text-white/75">{e.text}</p>
+              <li key={e.title} className="border-t border-accent-fg/25 pt-5">
+                <p className="font-display text-[1.1rem] font-semibold leading-snug">{e.title}</p>
+                <p className="mt-2 leading-relaxed text-accent-fg/80">{e.text}</p>
               </li>
             ))}
           </ul>

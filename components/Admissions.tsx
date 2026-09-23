@@ -1,59 +1,66 @@
-import { Info } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 import { admissionSteps, timings } from "@/lib/data";
+import Reveal from "./Reveal";
 
 export default function Admissions() {
   return (
-    <section id="admissions" className="py-20 lg:py-28">
-      <div className="container-x">
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+    <section id="admissions" className="section scroll-mt-28 bg-surface">
+      <div className="wrap">
+        <Reveal className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
-            <h2 className="h2">Getting admission is simple.</h2>
-            <p className="lead">Admissions are open from Nursery to Class XII. Here’s what happens after you enquire.</p>
+            <p className="eyebrow">Nursery to Class XII</p>
+            <h2 className="h2 mt-4">Getting a seat is simple.</h2>
+            <p className="lead">Four steps, and the first one takes about a minute.</p>
           </div>
-          <a href="#enquire" className="btn btn-ink self-start">Start with an enquiry</a>
-        </div>
+          <a href="#enquire" className="btn btn-solid shrink-0 self-start lg:self-auto">
+            Apply now
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
+          </a>
+        </Reveal>
 
-        <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-14 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
           {admissionSteps.map((s, i) => (
-            <li key={s.title} className="relative rounded-3xl bg-white p-6 ring-1 ring-ink/10">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-marigold font-display font-bold text-ink">
-                {i + 1}
+            <Reveal as="li" key={s.title} delay={i * 80} className="border-t border-line pt-6">
+              <span className="font-display text-[0.82rem] font-semibold tabular-nums text-muted">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
-              <p className="mt-2 leading-relaxed text-text/70">{s.text}</p>
-            </li>
+              <h3 className="h3 mt-4">{s.title}</h3>
+              <p className="mt-2.5 leading-relaxed text-muted">{s.text}</p>
+            </Reveal>
           ))}
         </ol>
 
-        <p className="mt-6 flex max-w-3xl gap-3 rounded-2xl bg-sky/70 p-4 text-sm leading-relaxed text-ink">
-          <Info className="mt-0.5 h-5 w-5 shrink-0" />
-          Class XI has its own eligibility norms. Subject combinations in Commerce and Science are fixed and
-          can’t be changed after admission, so please choose after careful thought.
-        </p>
+        <Reveal className="mt-12 flex max-w-3xl gap-4 border-l-2 border-accent bg-bg p-6">
+          <Info className="mt-0.5 h-5 w-5 shrink-0 text-fg" strokeWidth={1.8} />
+          <p className="text-[0.95rem] leading-relaxed text-muted">
+            Class XI has its own eligibility norms. Subject combinations in Commerce and Science are
+            fixed and cannot be changed after admission, so please choose after careful thought.
+          </p>
+        </Reveal>
 
-        <div className="mt-16">
-          <h3 className="font-display text-2xl font-bold text-ink">School timings</h3>
-          <div className="mt-6 overflow-x-auto rounded-3xl bg-white ring-1 ring-ink/10">
-            <table className="w-full min-w-[520px] text-left">
-              <thead className="bg-ink text-white">
-                <tr>
+        <Reveal className="mt-16 lg:mt-20">
+          <h3 className="h3">School timings</h3>
+          <div className="mt-6 overflow-x-auto">
+            <table className="w-full min-w-[34rem] border-collapse text-left">
+              <thead>
+                <tr className="bg-band text-band-fg">
                   <th scope="col" className="px-6 py-4 font-semibold">Classes</th>
                   <th scope="col" className="px-6 py-4 font-semibold">Time</th>
                   <th scope="col" className="px-6 py-4 font-semibold">Building</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-bg">
                 {timings.map((t) => (
-                  <tr key={t.who} className="border-t border-ink/10">
-                    <td className="px-6 py-4 font-medium text-ink">{t.who}</td>
-                    <td className="px-6 py-4 tabular-nums text-text/80">{t.time}</td>
-                    <td className="px-6 py-4 text-text/80">{t.where}</td>
+                  <tr key={t.who} className="border-t border-line">
+                    <td className="px-6 py-4 font-medium text-fg">{t.who}</td>
+                    <td className="px-6 py-4 tabular-nums text-muted">{t.time}</td>
+                    <td className="px-6 py-4 text-muted">{t.where}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

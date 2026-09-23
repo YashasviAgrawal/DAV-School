@@ -1,98 +1,138 @@
 import Image from "next/image";
-import { BookOpen, Building2, FlaskConical, Monitor, Presentation, Smile, Trophy, ShieldCheck, Stethoscope, Clock } from "lucide-react";
+import {
+  BookOpen,
+  Building2,
+  Clock,
+  FlaskConical,
+  Monitor,
+  Presentation,
+  ShieldCheck,
+  Smile,
+  Stethoscope,
+  Trophy,
+} from "lucide-react";
 import { care, facilities } from "@/lib/data";
-import { TilePattern } from "./Motif";
+import Reveal from "./Reveal";
 
 const icons = [Monitor, FlaskConical, Presentation, BookOpen, Trophy, Smile, Building2];
 const careIcons = [ShieldCheck, Stethoscope, Clock];
 
-// Bento layout: the first tile is the hero tile. Swap in real campus photos by adding
-// an <Image> inside any tile (put files in /public/campus/).
+// Seven facilities, seven cells, three rows of four. The big navy tile carries the
+// number worth reading twice; the play zone carries the only photograph we have of
+// the room it describes. Nothing here is padding.
 const spans = [
-  "md:col-span-2 md:row-span-2 bg-ink text-white",
-  "bg-sky",
-  "bg-white ring-1 ring-ink/10",
-  "bg-white ring-1 ring-ink/10",
-  "md:col-span-2 bg-cobalt text-white",
-  "bg-marigold",
-  "md:col-span-2 bg-sky",
+  "md:col-span-2 md:row-span-2 bg-band text-band-fg",
+  "bg-bg border border-line",
+  "bg-bg border border-line",
+  "bg-bg border border-line",
+  "bg-band text-band-fg",
+  "md:col-span-2",
+  "md:col-span-2 bg-bg border border-line",
 ];
 
 export default function Campus() {
   return (
-    <section id="campus" className="py-20 lg:py-28">
-      <div className="container-x">
-        <div className="max-w-3xl">
+    <section className="section bg-surface">
+      <div className="wrap">
+        <Reveal className="max-w-3xl">
           <h2 className="h2">Two buildings in the heart of the old city.</h2>
           <p className="lead">
-            Spacious, well-ventilated classrooms, good furniture and every teaching aid your child needs,
-            with games and sports at Chaugan Stadium.
+            Spacious, well-ventilated classrooms and every teaching aid your child needs, with games
+            and sports at the historic Chaugan Stadium a short walk away.
           </p>
-        </div>
+        </Reveal>
 
-        <figure className="mt-12">
-          <Image
-            src="/campus/play-outdoor.jpg"
-            alt="Pre-primary children playing on slides, swings and ride-ons in the school's outdoor play area"
-            width={1366}
-            height={534}
-            sizes="(min-width: 1280px) 1216px, 100vw"
-            className="w-full rounded-3xl object-cover"
-          />
-          <figcaption className="mt-3 text-sm text-text/60">The outdoor play area at the Montessori wing.</figcaption>
-        </figure>
-
-        <ul className="mt-10 grid auto-rows-[minmax(180px,auto)] gap-4 md:grid-flow-dense md:grid-cols-4">
+        <ul className="mt-14 grid auto-rows-[minmax(11rem,auto)] gap-4 md:grid-cols-4 lg:mt-16">
           {facilities.map((f, i) => {
             const Icon = icons[i];
             const big = i === 0;
-            // Tiles with a real photograph carry it edge to edge, with the text over a scrim.
+            // Tiles 0 and 4 are navy, so their body copy has to take the on-band
+            // muted colour. The page's default muted grey is unreadable there.
+            const onBand = i === 0 || i === 4;
+
             if (f.photo) {
               return (
-                <li key={f.title} className={`relative flex flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ${spans[i]}`}>
-                  <Image src={f.photo} alt={f.alt ?? ""} fill sizes="(min-width: 768px) 25vw, 100vw" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/5" aria-hidden="true" />
+                <Reveal
+                  as="li"
+                  key={f.title}
+                  delay={40 * i}
+                  className={`relative flex min-h-[15rem] flex-col justify-end overflow-hidden p-7 text-white ${spans[i]}`}
+                >
+                  <Image
+                    src={f.photo}
+                    alt={f.alt ?? ""}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover object-[center_40%]"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-scrim via-scrim/60 to-scrim/10"
+                  />
                   <div className="relative">
-                    <h3 className="font-display text-xl font-bold">{f.title}</h3>
-                    <p className="mt-2 leading-relaxed text-white/80">{f.text}</p>
+                    <h3 className="font-display text-xl font-semibold tracking-[-0.015em]">{f.title}</h3>
+                    <p className="mt-2 max-w-[42ch] leading-relaxed text-white/85">{f.text}</p>
                   </div>
-                </li>
+                </Reveal>
               );
             }
+
             return (
-              <li key={f.title} className={`relative flex flex-col justify-between overflow-hidden rounded-3xl p-6 ${spans[i]}`}>
-                {big && <TilePattern id="campus-tile" opacity={0.08} />}
-                <Icon className={`relative ${big ? "h-12 w-12 text-marigold" : "h-8 w-8"}`} strokeWidth={1.6} />
-                <div className="relative mt-6">
-                  <h3 className={`font-display font-bold ${big ? "text-3xl lg:text-4xl" : "text-xl"}`}>{f.title}</h3>
-                  <p className={`mt-2 leading-relaxed ${big ? "max-w-sm text-lg text-white/75" : "opacity-80"}`}>{f.text}</p>
-                  {big && <p className="mt-6 font-display text-6xl font-extrabold text-marigold">45</p>}
-                  {big && <p className="text-white/60">multimedia computers in the main building</p>}
+              <Reveal
+                as="li"
+                key={f.title}
+                delay={40 * i}
+                className={`flex flex-col justify-between p-7 ${spans[i]}`}
+              >
+                <Icon className={big ? "h-9 w-9 text-accent" : "h-7 w-7 opacity-70"} strokeWidth={1.5} />
+                <div className="mt-8">
+                  <h3
+                    className={`font-display font-semibold tracking-[-0.02em] ${
+                      big ? "text-[1.6rem] sm:text-[2rem]" : "text-xl"
+                    }`}
+                  >
+                    {f.title}
+                  </h3>
+                  <p
+                    className={`mt-2.5 leading-relaxed ${big ? "max-w-[40ch]" : "text-[0.95rem]"} ${
+                      onBand ? "text-band-muted" : "text-muted"
+                    }`}
+                  >
+                    {f.text}
+                  </p>
+                  {big && (
+                    <p className="mt-8 border-t border-band-fg/15 pt-6">
+                      <span className="font-display text-[3.4rem] font-semibold leading-none tracking-[-0.04em] text-accent">
+                        45
+                      </span>
+                      <span className="mt-2 block text-[0.9rem] text-band-muted">
+                        multimedia computers in the main building
+                      </span>
+                    </p>
+                  )}
                 </div>
-              </li>
+              </Reveal>
             );
           })}
         </ul>
 
-        <div className="mt-16 rounded-3xl bg-white p-8 ring-1 ring-ink/10 sm:p-10">
-          <h3 className="font-display text-2xl font-bold text-ink">Care beyond the classroom</h3>
-          <ul className="mt-8 grid gap-8 md:grid-cols-3">
+        <Reveal className="mt-16 border-t border-line pt-10 lg:mt-20">
+          <h3 className="h3">Care beyond the classroom</h3>
+          <ul className="mt-8 grid gap-10 md:grid-cols-3">
             {care.map((c, i) => {
               const Icon = careIcons[i];
               return (
                 <li key={c.title} className="flex gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky text-cobalt">
-                    <Icon className="h-6 w-6" />
-                  </span>
+                  <Icon className="mt-0.5 h-6 w-6 shrink-0 text-fg" strokeWidth={1.6} />
                   <div>
-                    <p className="font-semibold text-ink">{c.title}</p>
-                    <p className="mt-1 leading-relaxed text-text/70">{c.text}</p>
+                    <p className="font-semibold text-fg">{c.title}</p>
+                    <p className="mt-1.5 leading-relaxed text-muted">{c.text}</p>
                   </div>
                 </li>
               );
             })}
           </ul>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

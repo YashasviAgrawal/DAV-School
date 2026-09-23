@@ -2,22 +2,219 @@
 @tailwind components;
 @tailwind utilities;
 
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
-body { @apply bg-chalk text-text font-body antialiased; }
+/* ---------------------------------------------------------------------------
+   Tokens. One palette, two modes.
 
-:focus-visible { outline: 3px solid #F4B63F; outline-offset: 3px; border-radius: 6px; }
+   The page is navy-and-marigold in both modes. Dark mode is not an inversion:
+   the navy bands stay *above* the page surface (lighter than the background),
+   exactly as they sit above white in light mode, so the hierarchy a parent
+   learns scrolling down is the same in either mode.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: 255 255 255;
+  --surface: 243 245 249;
+  --band: 16 30 74; /* the deep navy of the school crest */
+  --band-fg: 255 255 255;
+  --band-muted: 183 194 216;
+  --fg: 14 27 61;
+  --muted: 85 98 126;
+  --line: 221 227 236;
+  --accent: 244 182 63; /* marigold: the one accent, all the way down the page */
+  --accent-fg: 16 30 74;
+  --danger: 185 28 28;
+  --scrim: 8 16 40; /* laid over photographs so white type stays readable */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: 11 18 38;
+    --surface: 17 26 51;
+    --band: 21 32 63;
+    --band-fg: 232 236 245;
+    --band-muted: 154 166 191;
+    --fg: 232 236 245;
+    --muted: 154 166 191;
+    --line: 35 48 79;
+    --accent: 247 197 102;
+    --accent-fg: 11 18 38;
+    --danger: 252 165 165;
+    --scrim: 4 8 22;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+}
+
+body {
+  @apply bg-bg font-body text-fg antialiased;
+}
+
+::selection {
+  background: rgb(var(--accent));
+  color: rgb(var(--accent-fg));
+}
+
+:focus-visible {
+  outline: 3px solid rgb(var(--accent));
+  outline-offset: 2px;
+}
+
+/* A marigold ring is invisible on a marigold button, so that one flips to navy. */
+.btn-primary:focus-visible {
+  outline-color: rgb(var(--accent-fg));
+}
 
 @layer components {
-  .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold transition-colors; }
-  .btn-primary { @apply bg-marigold text-ink hover:bg-[#f7c566]; }
-  .btn-ghost { @apply border border-white/40 text-white hover:bg-white/10; }
-  .btn-ink { @apply bg-ink text-white hover:bg-cobalt; }
-  .h2 { @apply font-display text-3xl font-bold leading-[1.1] tracking-tight text-ink sm:text-4xl lg:text-5xl; }
-  .lead { @apply mt-4 max-w-2xl text-lg leading-relaxed text-text/75; }
+  .wrap {
+    @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Every surface on this page is square. The only radius in the system is the
+     pill on the phone number in the announcement bar, which is a chip, not a card. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-[0.9rem] text-[0.94rem] font-semibold tracking-[-0.01em] transition duration-200 active:translate-y-px;
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-fg hover:brightness-[0.94];
+  }
+  .btn-solid {
+    @apply bg-fg text-bg hover:opacity-90;
+  }
+  .btn-outline {
+    @apply border border-fg/35 text-fg hover:bg-fg hover:text-bg;
+  }
+  .btn-on-band {
+    @apply border border-band-fg/40 text-band-fg hover:bg-band-fg hover:text-band;
+  }
+
+  .h2 {
+    @apply font-display text-[2.05rem] font-semibold leading-[1.04] tracking-[-0.025em] text-fg sm:text-[2.7rem] lg:text-[3.2rem];
+  }
+  .h3 {
+    @apply font-display text-xl font-semibold leading-snug tracking-[-0.015em] text-fg;
+  }
+  .lead {
+    @apply mt-5 max-w-[58ch] text-[1.05rem] leading-[1.75] text-muted;
+  }
+  .eyebrow {
+    @apply text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-muted;
+  }
+  .section {
+    @apply py-20 sm:py-24 lg:py-32;
+  }
+
+  /* The DAIS affordance: a short label with an arrow that steps forward on hover. */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-[0.95rem] font-semibold text-fg;
+  }
+  .link-arrow .arrow {
+    @apply transition-transform duration-300 ease-out;
+  }
+  .link-arrow:hover .arrow,
+  .group:hover .link-arrow .arrow {
+    @apply translate-x-1.5;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+   --------------------------------------------------------------------------- */
+
+/* Scroll reveal. The hidden state exists only once the boot script in layout.tsx
+   has set data-anim on <html>, and that script sets nothing when the reader has
+   asked for reduced motion or has JavaScript off. Either way the page arrives
+   finished rather than blank. */
+html[data-anim] [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+html[data-anim] [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero copy arrives in reading order on load. */
+  .rise {
+    animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  /* Short version, for the panel swapping under a tab. */
+  .swap {
+    animation: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Fills the rule under the live hero number, so the reader can see a turn coming. */
+@keyframes sweep {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The filmstrip gallery hides its scrollbar but stays scrollable and keyboard-reachable. */
+.no-bar {
+  scrollbar-width: none;
+}
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The filmstrip starts on the page gutter and runs off the right edge. Written as
+   plain CSS rather than an arbitrary utility, because calc() needs real spaces
+   around its operators and Tailwind's bracket syntax cannot carry them.
+
+   scroll-padding-left has to track padding-left exactly. Without it a snap-start
+   child aligns to the scrollport's border edge, so the browser scrolls the gutter
+   away on load and the first photograph sits flush against the window. */
+.strip-gutter {
+  padding-left: 1.25rem;
+  scroll-padding-left: 1.25rem;
+}
+@media (min-width: 640px) {
+  .strip-gutter {
+    padding-left: 2rem;
+    scroll-padding-left: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .strip-gutter {
+    padding-left: max(3rem, calc((100vw - 1320px) / 2 + 3rem));
+    scroll-padding-left: max(3rem, calc((100vw - 1320px) / 2 + 3rem));
+  }
 }
