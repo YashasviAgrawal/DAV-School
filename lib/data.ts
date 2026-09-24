@@ -274,18 +274,64 @@ export const features = [
 ];
 
 export const facilities = [
-  { title: "Computer labs", text: "Two labs in the main building with 45 multimedia computers, power backup and high-speed internet, plus one in the branch." },
-  { title: "Science lab", text: "A well-equipped lab for senior secondary Science students." },
-  { title: "Smart classes", text: "Used for Social Studies and Science from primary level." },
-  { title: "Libraries", text: "Open-shelf libraries on both campuses, restocked regularly." },
-  { title: "Sports at Chaugan Stadium", text: "Games and sports held at the historic Chaugan Stadium." },
+  {
+    title: "Computer labs",
+    text: "Two labs in the main building with 45 multimedia computers, power backup and high-speed internet, plus one in the branch.",
+    // STAND-IN: the school's robotics and innovation lab, which is the nearest thing to
+    // a computer lab in any photograph we have. Replace with a real computer lab shot at
+    // public/campus/computer-lab.jpg when the office sends one.
+    photo: "/campus/robotics-lab.jpg",
+    alt: "Students at work with equipment in the school's robotics and innovation lab",
+    focus: "object-[center_45%]",
+  },
+  {
+    title: "Science lab",
+    text: "A well-equipped lab for senior secondary Science students.",
+    photo: "/campus/science-exhibition.jpg",
+    alt: "Students presenting a rocket model at the school science exhibition",
+    // Tall tile, wide photo: hold the right of the frame so the students and their
+    // model stay in shot rather than the visitor on the left.
+    focus: "object-[68%_center]",
+  },
+  {
+    title: "Smart classes",
+    text: "Used for Social Studies and Science from primary level.",
+    // The robotics lab moved to the Computer labs tile, so this takes the primary
+    // classroom photograph, which matches "from primary level" in the line above.
+    photo: "/campus/activity-table.jpg",
+    alt: "Primary children working with letter and number puzzles at an activity table",
+    focus: "object-[center_50%]",
+  },
+  {
+    title: "Libraries",
+    text: "Open-shelf libraries on both campuses, restocked regularly.",
+    // STAND-IN: students at an educational exhibition. Nothing in the project shows a
+    // library. Replace at public/campus/library.jpg when the office sends one.
+    photo: "/life/excursion.jpg",
+    alt: "Students with their teachers at an educational exhibition",
+    focus: "object-[center_40%]",
+  },
+  {
+    title: "Sports at Chaugan Stadium",
+    text: "Games and sports held at the historic Chaugan Stadium.",
+    photo: "/campus/sports-day.jpg",
+    // Wide tile, near-square photo: drop the crop so the children on the start line
+    // are in frame instead of the empty sky above them.
+    alt: "Young children lined up with numbered bibs at the start of a race on the sports ground",
+    focus: "object-[center_66%]",
+  },
   {
     title: "Little ones’ play zone",
     text: "Swings, slides, merry-go-round, play pool, toy cars and a tunnel.",
     photo: "/campus/play-soft.jpg",
     alt: "Pre-primary children on a slide beside a ball pool in the indoor play zone",
   },
-  { title: "Comfortable buildings", text: "Centrally air-cooled main building and a fully air-conditioned branch." },
+  {
+    title: "Comfortable buildings",
+    text: "Centrally air-cooled main building and a fully air-conditioned branch.",
+    photo: "/campus/house-parade.jpg",
+    alt: "House flags and the winners' podium on the school ground during Sports Day",
+  },
 ];
 
 export const care = [

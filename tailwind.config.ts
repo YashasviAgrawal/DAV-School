@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  // lib/ has to be scanned too: data.ts carries the per-photo `focus` crop classes
+  // (object-[center_40%] and friends). Leave it out and Tailwind never generates them,
+  // so every crop silently falls back to centre.
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {

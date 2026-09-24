@@ -46,15 +46,50 @@ export default function Campus() {
           {facilities.map((f, i) => {
             const Icon = icons[i];
             const big = i === 0;
-            // Tiles with a real photograph carry it edge to edge, with the text over a scrim.
+            // Tiles with a real photograph carry it edge to edge, with the text over a
+            // scrim. A wide tile is half the grid, a normal one a quarter, so `sizes`
+            // has to follow the span or the browser fetches the wrong resolution.
             if (f.photo) {
+              const wide = spans[i].includes("col-span-2");
               return (
-                <li key={f.title} className={`relative flex flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ${spans[i]}`}>
-                  <Image src={f.photo} alt={f.alt ?? ""} fill sizes="(min-width: 768px) 25vw, 100vw" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/5" aria-hidden="true" />
+                <li
+                  key={f.title}
+                  className={`relative flex min-h-[13rem] flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ${spans[i]}`}
+                >
+                  <Image
+                    src={f.photo}
+                    alt={f.alt ?? ""}
+                    fill
+                    sizes={wide ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 100vw"}
+                    className={`object-cover ${f.focus ?? ""}`}
+                  />
+                  {/* The 2x2 tile carries far more copy than the small ones, so it gets
+                      a heavier scrim to keep all of it legible over the photograph. */}
+                  <div
+                    aria-hidden="true"
+                    className={`absolute inset-0 bg-gradient-to-t ${
+                      big ? "from-ink via-ink/80 to-ink/35" : "from-ink via-ink/60 to-ink/10"
+                    }`}
+                  />
                   <div className="relative">
-                    <h3 className="font-display text-xl font-bold">{f.title}</h3>
-                    <p className="mt-2 leading-relaxed text-white/80">{f.text}</p>
+                    <h3 className={`font-display font-bold ${big ? "text-3xl lg:text-4xl" : "text-xl"}`}>
+                      {f.title}
+                    </h3>
+                    <p className={`mt-2 leading-relaxed text-white/85 ${big ? "max-w-sm text-lg" : ""}`}>
+                      {f.text}
+                    </p>
+                    {/* Keep the headline number when this tile becomes a photograph, so
+                        adding an image does not quietly delete the best stat on the page. */}
+                    {big && (
+                      <>
+                        <p className="mt-5 font-display text-5xl font-extrabold leading-none text-marigold lg:text-6xl">
+                          45
+                        </p>
+                        <p className="mt-2 text-sm text-white/75">
+                          multimedia computers in the main building
+                        </p>
+                      </>
+                    )}
                   </div>
                 </li>
               );
