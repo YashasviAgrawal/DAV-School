@@ -126,8 +126,9 @@ export default function TeachersPage() {
           </section>
         )}
 
-        {/* Closing call to action */}
-        <section className="bg-sky/60 py-16 lg:py-20">
+        {/* Closing call to action. Kept white so the footer's sweep still starts from a
+            light background rather than meeting the pale blue at a hard edge. */}
+        <section className="bg-white py-16 lg:py-20">
           <div className="container-x flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div>
               <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">

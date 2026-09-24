@@ -16,6 +16,10 @@ export const school = {
   // Handles printed on the school's own announcement posters.
   youtube: "https://www.youtube.com/@DAVBrahampuri", // verified live
   instagram: "https://www.instagram.com/davbrahampuri50/", // CONFIRM: handle read off a poster
+  // Both numbers above are landlines, so neither can take WhatsApp. Put a mobile
+  // number here in plain digits with the country code (e.g. "919829012345") and the
+  // WhatsApp tile appears in the footer by itself. Leave it empty and it stays hidden.
+  whatsapp: "",
   director: "CA Manoj Kumar Agarwal",
 };
 

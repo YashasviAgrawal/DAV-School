@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Hind } from "next/font/google";
+import { Bricolage_Grotesque, EB_Garamond, Hind } from "next/font/google";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -7,6 +7,15 @@ const body = Hind({
   subsets: ["latin", "devanagari"],
   weight: ["400", "500", "600"],
   variable: "--font-body",
+  display: "swap",
+});
+
+// Used only in the footer's Get In Touch block, which is set in a serif to match
+// thevpss.com. Nothing else on the site uses it, so it is a small extra download.
+const serif = EB_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -23,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable}`}>
       <body>{children}</body>
     </html>
   );

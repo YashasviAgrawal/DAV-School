@@ -17,6 +17,21 @@ body { @apply bg-chalk text-text font-body antialiased; }
   .lead { @apply mt-4 max-w-2xl text-lg leading-relaxed text-text/75; }
 }
 
+/* The footer sweep. The page fades down into the ink rather than butting against it,
+   then deepens toward the bottom of the screen. It has to begin on a light section:
+   Contact is already the last section on the home page, and the teachers page's
+   closing band is white for the same reason. Every line of footer text sits below the
+   16% stop, so it is always white on ink, never white on the blend. */
+.footer-sweep {
+  background-image: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #16275c 16%,
+    #16275c 52%,
+    #0c1633 100%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
