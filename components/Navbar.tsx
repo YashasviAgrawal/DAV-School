@@ -4,7 +4,13 @@ import { Menu, X } from "lucide-react";
 import { nav } from "@/lib/data";
 import Logo from "./Logo";
 
-export default function Navbar() {
+/**
+ * `overlay` floats the bar over the page's first section instead of sitting above it,
+ * which is what the home page's photographic hero wants. It turns solid as soon as the
+ * reader scrolls, so the links never end up white on a white section. Pages without a
+ * photo hero leave it off and get the solid bar from the start.
+ */
+export default function Navbar({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -15,25 +21,44 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The open mobile panel is opaque, so the bar above it has to be too.
+  const clear = overlay && !scrolled && !open;
+
   return (
     <header
       id="top"
-      className={`sticky top-0 z-40 bg-white/95 backdrop-blur transition-shadow ${scrolled ? "shadow-[0_1px_0_#16275C1a]" : ""}`}
+      className={`sticky top-0 z-40 transition-colors ${
+        clear ? "bg-transparent" : "bg-white/95 backdrop-blur"
+      } ${scrolled && !clear ? "shadow-[0_1px_0_#16275C1a]" : ""}`}
     >
       <nav className="container-x flex h-20 items-center justify-between" aria-label="Main">
-        <Logo />
+        <Logo light={clear} />
         {/* gap tightens between lg and xl so the seven links clear the Enquire button at 1024px */}
         <ul className="hidden items-center gap-5 lg:flex xl:gap-8">
           {nav.map((n) => (
             <li key={n.href}>
-              <a href={n.href} className="font-medium text-text/80 hover:text-cobalt">{n.label}</a>
+              <a
+                href={n.href}
+                className={`font-medium ${
+                  clear ? "text-white/90 hover:text-white" : "text-text/80 hover:text-cobalt"
+                }`}
+              >
+                {n.label}
+              </a>
             </li>
           ))}
         </ul>
         <div className="flex items-center gap-3">
-          <a href="/#enquire" className="btn btn-ink hidden sm:inline-flex">Enquire now</a>
+          <a
+            href="/#enquire"
+            className={`btn hidden sm:inline-flex ${
+              clear ? "border border-white/60 text-white hover:bg-white hover:text-ink" : "btn-ink"
+            }`}
+          >
+            Enquire now
+          </a>
           <button
-            className="rounded-lg p-2 text-ink lg:hidden"
+            className={`rounded-lg p-2 lg:hidden ${clear ? "text-white" : "text-ink"}`}
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="mobile-menu"

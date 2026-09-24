@@ -35,6 +35,40 @@ export const nav = [
   { label: "Contact", href: "/#contact" },
 ];
 
+// The rotating hero. Photographs carry the section; each slide gets one short line
+// and one supporting sentence, and nothing else. Keep them short: anything longer
+// starts competing with the photograph instead of sitting on it.
+export const heroSlides = [
+  {
+    src: "/life/achievers-group.jpg",
+    alt: "Students garlanded and holding trophies with their teachers at the board result felicitation",
+    headline: "Every Child Known by Name",
+    text: "English-medium, co-educational schooling in Brahampuri, Jaipur, since 1972.",
+    focus: "object-[center_42%]",
+  },
+  {
+    src: "/campus/activity-table.jpg",
+    alt: "Pre-primary children smiling around an activity table stacked with letter and number puzzles",
+    headline: "Learning That Starts with Play",
+    text: "A bag-free Play Group, guided by Montessori-trained teachers.",
+    focus: "object-[center_45%]",
+  },
+  {
+    src: "/campus/climbing-wall.jpg",
+    alt: "Small children climbing a padded indoor climbing wall and rope ladder",
+    headline: "Room to Climb, Room to Grow",
+    text: "An indoor play gym, a climbing wall and a play pool for the little ones.",
+    focus: "object-[center_40%]",
+  },
+  {
+    src: "/campus/play-outdoor.jpg",
+    alt: "Young children on slides, swings and ride-ons in the school's outdoor play area",
+    headline: "Space to Just Be a Child",
+    text: "Swings, slides, and games and sports at the historic Chaugan Stadium.",
+    focus: "object-[center_55%]",
+  },
+];
+
 export const heroFacts = [
   { value: "1972", label: "Teaching Jaipur's children since" },
   { value: "3", label: "Schools in Brahampuri Khurra" },

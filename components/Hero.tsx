@@ -1,52 +1,136 @@
-import { Phone } from "lucide-react";
-import { heroFacts, school } from "@/lib/data";
-import { Rosette, TilePattern } from "./Motif";
-import EnquiryForm from "./EnquiryForm";
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { heroSlides } from "@/lib/data";
+
+const DURATION = 6000;
 
 export default function Hero() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // The slides turn on their own. Deliberately NOT paused on hover: this section is a
+  // full viewport tall, so the pointer sits inside it almost the whole time a reader is
+  // on the page, and hover-pausing meant it never advanced at all on a desktop.
+  // Reduced motion is handled in globals.css, which drops the transition duration to
+  // nothing, so those readers get a clean cut between photographs instead of a fade
+  // rather than a hero that never moves.
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(() => setActive((n) => (n + 1) % heroSlides.length), DURATION);
+    return () => clearTimeout(t);
+  }, [active, paused]);
+
+  const slide = heroSlides[active];
+
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
-      <TilePattern id="hero-tile" />
-      {/* The one orchestrated motion on the page: the rosette blooms in on load */}
-      <div className="pointer-events-none absolute -right-48 -top-24 h-[640px] w-[640px] lg:-right-56 lg:top-1/2 lg:h-[900px] lg:w-[900px] lg:-translate-y-1/2" aria-hidden="true">
-        <Rosette className="animate-bloom h-full w-full opacity-90" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/20" aria-hidden="true" />
-
-      <div className="container-x relative grid gap-12 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
-        <div>
-          <p className="text-base font-medium text-marigold">
-            <span lang="hi">स्वागत है</span>, welcome to the D.A.V. family, {school.place}
-          </p>
-          <h1 className="mt-5 max-w-3xl font-display text-[2.6rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            Every child known by name, from Play Group to Class XII.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
-            An English-medium, co-educational school with Hindi and Sanskrit at its roots. For over fifty years,
-            Brahampuri families have trusted us with one promise: {school.motto.toLowerCase()}.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#enquire" className="btn btn-primary">Book a campus visit</a>
-            <a href={`tel:${school.phones[0].replace(/-/g, "")}`} className="btn btn-ghost">
-              <Phone className="h-4 w-4" /> Call {school.phones[0]}
-            </a>
+    // -mt-20 pulls the photograph up under the header, which is transparent at the top
+    // of this page, so the nav floats on the image rather than sitting in a bar above
+    // it. The 5rem of top padding below puts the copy back clear of it.
+    //
+    // The focus handlers hold the slides only while a dot has keyboard focus, so
+    // tabbing through them does not shift the photograph under the reader.
+    <section
+      aria-roledescription="carousel"
+      aria-label="Life at D.A.V."
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+      className="relative isolate -mt-20 flex min-h-[max(34rem,calc(100dvh-2.5rem))] flex-col justify-center overflow-hidden bg-ink"
+    >
+      {heroSlides.map((s, i) => {
+        const on = i === active;
+        return (
+          <div
+            key={s.src}
+            aria-hidden={!on}
+            className={`absolute inset-0 -z-10 ${on ? "opacity-100" : "opacity-0"}`}
+            style={{ transition: "opacity 1100ms ease-in-out" }}
+          >
+            {/* A slow push on the live frame. The scale snaps back on the way out,
+                while the slide is already invisible, so each turn starts clean. */}
+            <div
+              className="h-full w-full"
+              style={{
+                transform: on ? "scale(1.1)" : "scale(1.02)",
+                transition: `transform ${on ? "8000ms" : "900ms"} ease-out`,
+              }}
+            >
+              <Image
+                src={s.src}
+                alt={s.alt}
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className={`object-cover ${s.focus}`}
+              />
+            </div>
           </div>
+        );
+      })}
 
-          <dl className="mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-6 border-t border-white/15 pt-8 sm:grid-cols-4">
-            {heroFacts.map((f) => (
-              <div key={f.label}>
-                <dt className="sr-only">{f.label}</dt>
-                <dd className="font-display text-3xl font-bold text-white">{f.value}</dd>
-                <dd className="mt-1 text-sm leading-snug text-white/60">{f.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+      {/* Weighted to the left, where the type is, so the right of every frame stays
+          close to the real photograph. The top corner is darkened enough to carry the
+          white crest and links, the foot enough to carry the slide dots. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/80 via-ink/40 to-ink/15"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/55 via-transparent to-ink/35"
+      />
 
-        <div id="enquire" className="scroll-mt-28 rounded-3xl bg-white p-6 text-text shadow-2xl shadow-black/30 sm:p-8">
-          <h2 className="font-display text-2xl font-bold text-ink">Admission enquiry {school.session}</h2>
-          <p className="mb-6 mt-1 text-text/65">Leave your number and the office will call you back.</p>
-          <EnquiryForm />
+      <div className="container-x relative w-full pb-28 pt-28">
+        <h1
+          key={`h-${active}`}
+          className="max-w-[15ch] font-serif text-[2.75rem] font-normal leading-[1.08] text-white sm:text-6xl lg:text-[4.25rem]"
+        >
+          {slide.headline}
+        </h1>
+        <p
+          key={`p-${active}`}
+          className="mt-6 max-w-[38ch] text-lg leading-relaxed text-white/85"
+        >
+          {slide.text}
+        </p>
+      </div>
+
+      {/* Dots bottom right, the live one an open marigold ring with its number. The
+          right padding clears the docked call button, which is fixed over this corner
+          at every width and otherwise sits on top of the last two dots. */}
+      <div className="container-x absolute inset-x-0 bottom-9">
+        <div className="flex items-center justify-end gap-4 pr-20">
+          {heroSlides.map((s, i) => {
+            const on = i === active;
+            return (
+              <button
+                key={s.src}
+                type="button"
+                aria-label={`Show photograph ${i + 1} of ${heroSlides.length}`}
+                aria-current={on}
+                onClick={() => setActive(i)}
+                className="flex items-center gap-2 py-1"
+              >
+                {on ? (
+                  <>
+                    <span
+                      aria-hidden="true"
+                      className="block h-5 w-5 rounded-full border-2 border-marigold"
+                    />
+                    <span aria-hidden="true" className="block h-px w-3 bg-marigold" />
+                    <span className="font-display text-sm font-bold tabular-nums text-marigold">
+                      {i + 1}
+                    </span>
+                  </>
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="block h-2.5 w-2.5 rounded-full bg-white/70 transition-colors hover:bg-white"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
