@@ -31,7 +31,9 @@ export const nav = [
   { label: "Campus", href: "/#campus" },
   { label: "Photos", href: "/#life" },
   { label: "Teachers", href: "/teachers" },
-  { label: "Admissions", href: "/#admissions" },
+  // The Admissions section was removed, so this now lands on the enquiry form, which
+  // is the thing a parent looking for "Admissions" actually wants.
+  { label: "Admissions", href: "/#enquire" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -163,12 +165,18 @@ export const extras = [
   { title: "Vocational courses", text: "Free of cost, in an extra hour after the morning shift." },
 ];
 
+// `subjects` is no longer rendered anywhere; the academics panel shows the stage's
+// photograph instead. It is kept because it is the school's own material and the
+// office may want it back somewhere.
 export type Stage = {
   key: string;
   name: string;
   classes: string;
   subjects: string[];
   approach: string[];
+  photo: string;
+  alt: string;
+  focus: string;
 };
 
 export const stages: Stage[] = [
@@ -177,6 +185,9 @@ export const stages: Stage[] = [
     name: "Pre-Primary",
     classes: "Play Group (2.5+ years), Nursery, KG and Prep (3+ years)",
     subjects: ["English", "Hindi", "Maths", "G.K.", "Drawing & Craft"],
+    photo: "/campus/activity-table.jpg",
+    alt: "Pre-primary children working with letter and number puzzles around an activity table",
+    focus: "object-[center_50%]",
     approach: [
       "Play Group is completely bag-free",
       "Play-way learning with specially designed aids, guided by trained Montessori teachers",
@@ -192,6 +203,9 @@ export const stages: Stage[] = [
       "English", "Hindi", "Maths", "Social Studies", "General Science",
       "G.K.", "Computer", "Music", "Moral Education", "Drawing & Craft",
     ],
+    photo: "/life/annual-function.jpg",
+    alt: "Young students in costume performing on stage at the school's Annual Function",
+    focus: "object-[center_30%]",
     approach: [
       "Informal “learning by doing” with Montessori-trained teachers",
       "Smart classes for Social Studies and Science",
@@ -206,6 +220,9 @@ export const stages: Stage[] = [
       "English", "Hindi", "Sanskrit", "Maths", "History", "Civics",
       "Geography", "General Science", "G.K.", "Computer", "Drawing & Craft",
     ],
+    photo: "/life/medallists.jpg",
+    alt: "Middle-school students in school blazers holding their medals with a teacher",
+    focus: "object-[center_40%]",
     approach: [
       "Sanskrit introduced as the third language",
       "Students design their own websites and get their own email IDs",
@@ -217,6 +234,9 @@ export const stages: Stage[] = [
     name: "Secondary",
     classes: "Class 9 and 10",
     subjects: ["English", "Hindi", "Sanskrit", "Maths", "Science", "History", "Geography", "Computer"],
+    photo: "/life/excursion.jpg",
+    alt: "Senior students in school blazers on an educational trip with their teachers",
+    focus: "object-[center_45%]",
     approach: [
       "A planned syllabus so concepts are understood, not memorised",
       "Website design on advanced computers",
@@ -231,6 +251,9 @@ export const stages: Stage[] = [
       "Hindi", "English", "Accountancy", "Business Organisation", "Physics",
       "Chemistry", "Economics / Maths / Computer (I.P.) / Biology",
     ],
+    photo: "/life/farewell.jpg",
+    alt: "Senior students and staff at a farewell ceremony, the two honoured students wearing sashes",
+    focus: "object-[center_40%]",
     approach: [
       "Well-equipped science lab and computer labs",
       "The school sets its own eligibility norms for Class XI",
@@ -284,12 +307,15 @@ export const campuses = [
   { name: "D.A.V. Sr. Secondary School", address: "16, Agrasain Colony, Brahampuri Khurra" },
 ];
 
+// No longer rendered: the Admissions section that showed these was removed. Kept
+// because they are the school's own details and may be wanted elsewhere.
 export const timings = [
   { who: "Class 6 to 12", time: "7:45 AM – 12:55 PM", where: "Main building" },
   { who: "Play Group to Class 5 (morning)", time: "7:45 AM – 12:30 PM", where: "Branch building" },
   { who: "Play Group to Class 5 (afternoon)", time: "1:00 PM – 5:30 PM", where: "Main building" },
 ];
 
+// No longer rendered, for the same reason as `timings` above.
 export const admissionSteps = [
   { title: "Send an enquiry", text: "Fill in the form or call the school office. We’ll call you back to answer your questions." },
   { title: "Visit and register", text: "See the campus, meet the teachers and collect the registration form." },

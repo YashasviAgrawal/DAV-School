@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { extras, stages } from "@/lib/data";
 
@@ -78,15 +79,18 @@ export default function Journey() {
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-sky/60 p-6">
-            <p className="font-semibold text-ink">Subjects</p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {stage.subjects.map((s) => (
-                <li key={s} className="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink ring-1 ring-ink/10">
-                  {s}
-                </li>
-              ))}
-            </ul>
+          {/* One photograph per stage, keyed so it fades in when the tab changes. It
+              stretches to the height of the list beside it from lg up, and falls back
+              to a 4:3 crop once the panel stacks. */}
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-sky lg:aspect-auto lg:h-full lg:min-h-[19rem]">
+            <Image
+              key={stage.key}
+              src={stage.photo}
+              alt={stage.alt}
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className={`animate-fade object-cover ${stage.focus}`}
+            />
           </div>
         </div>
 

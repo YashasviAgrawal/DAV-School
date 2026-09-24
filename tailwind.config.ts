@@ -24,8 +24,16 @@ const config: Config = {
           "0%": { opacity: "0", transform: "rotate(-40deg) scale(0.85)" },
           "100%": { opacity: "1", transform: "rotate(0deg) scale(1)" },
         },
+        // Used when the academics panel swaps to another stage's photograph.
+        fade: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
-      animation: { bloom: "bloom 1.6s cubic-bezier(.2,.7,.2,1) both" },
+      animation: {
+        bloom: "bloom 1.6s cubic-bezier(.2,.7,.2,1) both",
+        fade: "fade .5s ease-out both",
+      },
     },
   },
   plugins: [],
