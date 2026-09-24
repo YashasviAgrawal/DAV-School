@@ -40,7 +40,7 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
               <a
                 href={n.href}
                 className={`font-medium ${
-                  clear ? "text-white/90 hover:text-white" : "text-text/80 hover:text-cobalt"
+                  clear ? "text-white/90 hover:text-white" : "text-text/80 hover:text-ink"
                 }`}
               >
                 {n.label}

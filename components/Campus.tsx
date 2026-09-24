@@ -6,15 +6,17 @@ import { TilePattern } from "./Motif";
 const icons = [Monitor, FlaskConical, Presentation, BookOpen, Trophy, Smile, Building2];
 const careIcons = [ShieldCheck, Stethoscope, Clock];
 
-// Bento layout: the first tile is the hero tile. Swap in real campus photos by adding
-// an <Image> inside any tile (put files in /public/campus/).
+// Bento layout: the first tile is the hero tile. Every tile currently carries a
+// photograph, so these fills only show if one is removed. They are deliberately navy
+// and its tints: a marigold fallback used to sit here and would drop a block of
+// saturated gold back into the grid the moment a photo was taken out.
 const spans = [
   "md:col-span-2 md:row-span-2 bg-ink text-white",
   "bg-sky",
   "bg-white ring-1 ring-ink/10",
   "bg-white ring-1 ring-ink/10",
-  "md:col-span-2 bg-cobalt text-white",
-  "bg-marigold",
+  "md:col-span-2 bg-ink text-white",
+  "bg-sky",
   "md:col-span-2 bg-sky",
 ];
 
@@ -116,12 +118,12 @@ export default function Campus() {
               const Icon = careIcons[i];
               return (
                 <li key={c.title} className="flex gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky text-cobalt">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky text-muted">
                     <Icon className="h-6 w-6" />
                   </span>
                   <div>
                     <p className="font-semibold text-ink">{c.title}</p>
-                    <p className="mt-1 leading-relaxed text-text/70">{c.text}</p>
+                    <p className="mt-1 leading-relaxed text-muted">{c.text}</p>
                   </div>
                 </li>
               );

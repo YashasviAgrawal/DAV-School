@@ -60,13 +60,13 @@ export default function TeachersPage() {
                       className="h-24 w-24 rounded-2xl object-cover object-top"
                     />
                   ) : (
-                    <span className="flex h-24 w-24 items-center justify-center rounded-2xl bg-sky text-cobalt" aria-hidden="true">
+                    <span className="flex h-24 w-24 items-center justify-center rounded-2xl bg-sky text-muted" aria-hidden="true">
                       <GraduationCap className="h-10 w-10" strokeWidth={1.5} />
                     </span>
                   )}
                   <h3 className="mt-6 font-display text-2xl font-bold text-ink">{p.name}</h3>
-                  <p className="mt-1 font-semibold text-cobalt">{p.role}</p>
-                  <p className="mt-3 leading-relaxed text-text/70">{p.text}</p>
+                  <p className="mt-1 font-semibold text-muted">{p.role}</p>
+                  <p className="mt-3 leading-relaxed text-muted">{p.text}</p>
                 </li>
               ))}
             </ul>
@@ -87,7 +87,7 @@ export default function TeachersPage() {
               {teachingApproach.map((t) => (
                 <li key={t.title} className="border-t border-ink/10 py-6">
                   <h3 className="font-display text-xl font-bold text-ink">{t.title}</h3>
-                  <p className="mt-2 leading-relaxed text-text/70">{t.text}</p>
+                  <p className="mt-2 leading-relaxed text-muted">{t.text}</p>
                 </li>
               ))}
             </ul>
@@ -109,15 +109,15 @@ export default function TeachersPage() {
                       {t.photo ? (
                         <Image src={t.photo} alt={t.alt ?? ""} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
                       ) : (
-                        <span className="flex h-full items-center justify-center text-cobalt" aria-hidden="true">
+                        <span className="flex h-full items-center justify-center text-muted" aria-hidden="true">
                           <GraduationCap className="h-12 w-12" strokeWidth={1.4} />
                         </span>
                       )}
                     </div>
                     <div className="p-5">
                       <h3 className="font-display text-lg font-bold leading-snug text-ink">{t.name}</h3>
-                      <p className="mt-1 text-sm font-semibold text-cobalt">{t.role}</p>
-                      {t.subjects && <p className="mt-2 text-sm leading-relaxed text-text/70">{t.subjects}</p>}
+                      <p className="mt-1 text-sm font-semibold text-muted">{t.role}</p>
+                      {t.subjects && <p className="mt-2 text-sm leading-relaxed text-muted">{t.subjects}</p>}
                     </div>
                   </li>
                 ))}
@@ -134,7 +134,7 @@ export default function TeachersPage() {
               <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
                 The best way to meet the teachers is to come in.
               </h2>
-              <p className="mt-2 max-w-2xl leading-relaxed text-text/70">
+              <p className="mt-2 max-w-2xl leading-relaxed text-muted">
                 Walk through the classrooms, meet the staff and ask them anything. Call the office to fix a time.
               </p>
             </div>

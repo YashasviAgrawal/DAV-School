@@ -40,7 +40,7 @@ export default function EnquiryForm() {
       <div className="flex flex-col items-center py-10 text-center" role="status">
         <CheckCircle2 className="h-14 w-14 text-leaf" />
         <h3 className="mt-4 font-display text-2xl font-bold text-ink">Enquiry sent</h3>
-        <p className="mt-2 max-w-xs text-text/70">
+        <p className="mt-2 max-w-xs text-muted">
           The school office will call you on {phone} within one working day.
         </p>
       </div>
@@ -48,7 +48,7 @@ export default function EnquiryForm() {
   }
 
   const field =
-    "mt-1.5 w-full rounded-xl border border-ink/15 bg-chalk px-4 py-3 text-text placeholder:text-text/40 focus:border-cobalt focus:outline-none focus:ring-2 focus:ring-cobalt/20";
+    "mt-1.5 w-full rounded-xl border border-ink/15 bg-chalk px-4 py-3 text-text placeholder:text-text/40 focus:border-ink focus:outline-none focus:ring-2 focus:ring-ink/15";
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4">

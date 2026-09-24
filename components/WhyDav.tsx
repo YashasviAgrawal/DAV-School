@@ -12,7 +12,7 @@ export default function WhyDav() {
             </p>
             <footer className="mt-4 text-text/60">The school’s founding aim</footer>
           </blockquote>
-          <p className="mt-8 max-w-md leading-relaxed text-text/75">
+          <p className="mt-8 max-w-md leading-relaxed text-muted">
             We set high academic expectations and pair them with values, so students grow into
             peace-building, productive citizens, and leaders who are good people first.
           </p>
@@ -24,7 +24,7 @@ export default function WhyDav() {
           {features.map((f) => (
             <li key={f.title} className="border-t border-ink/10 py-6">
               <h3 className="font-display text-xl font-bold text-ink">{f.title}</h3>
-              <p className="mt-2 leading-relaxed text-text/70">{f.text}</p>
+              <p className="mt-2 leading-relaxed text-muted">{f.text}</p>
             </li>
           ))}
         </ul>

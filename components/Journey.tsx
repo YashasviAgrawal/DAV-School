@@ -23,7 +23,7 @@ export default function Journey() {
         <div className="relative mt-12">
           <div className="absolute left-0 right-0 top-5 hidden h-1 rounded-full bg-sky md:block" aria-hidden="true" />
           <div
-            className="absolute left-0 top-5 hidden h-1 rounded-full bg-cobalt transition-all duration-500 md:block"
+            className="absolute left-0 top-5 hidden h-1 rounded-full bg-ink transition-all duration-500 md:block"
             style={{ width: `${(active / (stages.length - 1)) * 100}%` }}
             aria-hidden="true"
           />
@@ -43,14 +43,18 @@ export default function Journey() {
                 >
                   <span
                     className={`hidden h-11 w-11 items-center justify-center rounded-full border-4 font-display font-bold transition-colors md:flex ${
-                      on ? "border-marigold bg-ink text-white" : done ? "border-cobalt bg-cobalt text-white" : "border-sky bg-white text-ink/50 group-hover:border-cobalt/40"
+                      on
+                        ? "border-marigold bg-ink text-white"
+                        : done
+                          ? "border-ink bg-ink text-white"
+                          : "border-ink/20 bg-white text-ink/55 group-hover:border-ink/45"
                     }`}
                   >
                     {i + 1}
                   </span>
                   <span
                     className={`rounded-full px-4 py-2 font-semibold transition-colors md:rounded-none md:bg-transparent md:p-0 ${
-                      on ? "bg-ink text-white md:text-ink" : "bg-sky text-ink/70 md:text-text/60"
+                      on ? "bg-ink text-white md:text-ink" : "bg-sky text-ink/75 md:text-muted"
                     }`}
                   >
                     {s.name}
@@ -68,12 +72,12 @@ export default function Journey() {
           className="mt-10 grid gap-10 rounded-3xl bg-white p-6 ring-1 ring-ink/10 sm:p-10 lg:grid-cols-[1fr_1.1fr]"
         >
           <div>
-            <p className="text-sm font-semibold text-cobalt">{stage.classes}</p>
+            <p className="text-sm font-semibold text-muted">{stage.classes}</p>
             <h3 className="mt-2 font-display text-3xl font-bold text-ink">{stage.name}</h3>
             <ul className="mt-6 space-y-3">
               {stage.approach.map((a) => (
                 <li key={a} className="flex gap-3 text-text/80">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-leaf" strokeWidth={2.5} />
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-ink" strokeWidth={2.5} />
                   <span>{a}</span>
                 </li>
               ))}

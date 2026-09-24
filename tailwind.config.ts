@@ -8,14 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Jaipur blue-pottery palette
-        ink: "#16275C",      // deep indigo — primary brand
-        cobalt: "#2F5DD0",   // blue-pottery glaze — links, highlights
-        sky: "#E3EAFB",      // pale glaze — soft section fills
-        marigold: "#F4B63F", // festival marigold — calls to action
-        leaf: "#2E7D5B",     // henna leaf — small positive accents
-        chalk: "#F7F8FC",    // page background
-        text: "#141B34",     // body text
+        // One navy, one gold, and neutrals. Everything else is a tint of those.
+        //
+        // The rule that keeps this coherent: navy carries structure (headings, bands,
+        // solid buttons), gold is the single accent and only ever appears on navy or as
+        // a fill under navy text, and anything secondary is `muted` rather than a second
+        // brighter blue. Introducing a third hue is what made the page feel assembled.
+        ink: "#16275C", // brand navy: headings, dark bands, solid buttons
+        cobalt: "#2F5DD0", // interactive state only (progress fill, focus ring)
+        sky: "#E3EAFB", // pale navy tint for soft fills and icon plates
+        marigold: "#F4B63F", // the one accent. Never as text on a light background.
+        leaf: "#2E7D5B", // success state only, nowhere decorative
+        chalk: "#F1F4FA", // alternating section fill, deep enough to actually read
+        muted: "#57607A", // secondary text and metadata. Replaces cobalt for labels.
+        text: "#141B34", // body text
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

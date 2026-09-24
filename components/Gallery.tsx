@@ -29,7 +29,12 @@ export default function Gallery() {
                   sizes="(min-width: 640px) 50vw, 100vw"
                   className={`object-cover ${g.pos ?? ""}`}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent pt-12" aria-hidden="true" />
+                {/* These captions sit over busy, brightly lit photographs, so the scrim
+                    reaches full navy at the foot and runs taller than it used to. */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink via-ink/70 to-transparent"
+                  aria-hidden="true"
+                />
                 <figcaption className="absolute inset-x-0 bottom-0 p-5 text-sm font-medium leading-relaxed text-white">
                   {g.caption}
                 </figcaption>

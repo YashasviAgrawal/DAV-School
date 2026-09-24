@@ -4,7 +4,9 @@ import { heroFacts } from "@/lib/data";
 // their own quiet band directly beneath it.
 export default function Facts() {
   return (
-    <section aria-label="The school at a glance" className="border-b border-ink/10 bg-white">
+    // Chalk here, white on the awards band below it: the page alternates from the hero
+    // all the way down, and the two fills are now far enough apart to actually read.
+    <section aria-label="The school at a glance" className="bg-chalk">
       <dl className="container-x grid grid-cols-2 gap-x-8 gap-y-8 py-12 sm:grid-cols-4 lg:py-14">
         {heroFacts.map((f) => (
           <div key={f.label}>

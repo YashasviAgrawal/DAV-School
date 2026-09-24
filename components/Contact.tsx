@@ -11,23 +11,23 @@ export default function Contact() {
 
           <ul className="mt-10 space-y-5">
             <li className="flex gap-4">
-              <MapPin className="mt-1 h-6 w-6 shrink-0 text-cobalt" />
+              <MapPin className="mt-1 h-6 w-6 shrink-0 text-muted" />
               <span className="text-lg text-text/80">{school.address}</span>
             </li>
             <li className="flex gap-4">
-              <Phone className="mt-1 h-6 w-6 shrink-0 text-cobalt" />
+              <Phone className="mt-1 h-6 w-6 shrink-0 text-muted" />
               <span className="text-lg">
                 {school.phones.map((p, i) => (
                   <span key={p}>
-                    <a href={`tel:${p.replace(/-/g, "")}`} className="font-semibold text-ink hover:text-cobalt">{p}</a>
+                    <a href={`tel:${p.replace(/-/g, "")}`} className="font-semibold text-ink hover:text-muted">{p}</a>
                     {i < school.phones.length - 1 && <span className="text-text/40"> / </span>}
                   </span>
                 ))}
               </span>
             </li>
             <li className="flex gap-4">
-              <Mail className="mt-1 h-6 w-6 shrink-0 text-cobalt" />
-              <a href={`mailto:${school.email}`} className="text-lg font-semibold text-ink hover:text-cobalt">{school.email}</a>
+              <Mail className="mt-1 h-6 w-6 shrink-0 text-muted" />
+              <a href={`mailto:${school.email}`} className="text-lg font-semibold text-ink hover:text-muted">{school.email}</a>
             </li>
           </ul>
 
